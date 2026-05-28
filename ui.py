@@ -4,6 +4,11 @@ from app.services.chat import create_session, get_answer
 from app.services.db import delete_session, get_all_sessions, get_session_messages
 from app.services.rag import build_vectorstore, add_document
 
+st.set_page_config(
+    page_title="企业级智能文档检索系统",       # 这里填你想要的网页标签页名称
+    page_icon="📑"                           # 这里填你喜欢的 Emoji 表情作为图标
+)
+
 # ========== 初始化 ==========
 
 if not os.path.exists("chroma_db/chroma.sqlite3"):
@@ -61,8 +66,8 @@ with st.sidebar:
 
 # ========== 主界面 ==========
 
-st.title("📚 知识库问答机器人")
-st.caption("基于用户上传和原有知识智能问答")
+st.title("🏢 企业级智能文档检索系统")
+st.caption("基于 RAG 架构与本地大语言模型的专属知识赋能平台")
 
 if st.session_state.current_session_id:
     messages = get_session_messages(st.session_state.current_session_id)
