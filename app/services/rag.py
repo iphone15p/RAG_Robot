@@ -6,6 +6,8 @@ from app.core.config import embeddings
 
 def load_documents(folder_path="documents"):
     """读取documents文件夹里所有支持的文档"""
+    if not os.path.exists(folder_path):
+        return []
     docs = []
     for file in os.listdir(folder_path):
         filepath = os.path.join(folder_path, file)
@@ -16,6 +18,10 @@ def load_documents(folder_path="documents"):
         elif file.endswith(".txt"):
             # 加载txt文本文件
             loader = TextLoader(filepath, encoding="utf-8")
+            docs.extend(loader.load())
+        elif file.endswith(".pdf"):
+            from langchain_community.document_loaders import PyPDFLoader
+            loader = PyPDFLoader(filepath)
             docs.extend(loader.load())
     return docs
 
@@ -30,6 +36,8 @@ def build_vectorstore():
 
 def get_retriever():
     """加载已有向量库，返回检索器"""
+    if not os.path.exists("chroma_db/chroma.sqlite3"):
+        build_vectorstore()
     vectorstore = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
     return vectorstore.as_retriever()
 
@@ -37,6 +45,8 @@ def get_retriever():
 
 def add_document(filepath: str):
     """只向量化新上传的文档，不重建整个库"""
+    if not os.path.exists("chroma_db/chroma.sqlite3"):
+        build_vectorstore()
     if filepath.endswith(".docx"):
         loader = Docx2txtLoader(filepath)
     elif filepath.endswith(".txt"):

@@ -1,0 +1,21 @@
+# 环境变量 - 包含API密钥，绝对不能提交
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 虚拟环境
+.venv/
+
+# IDE
+.idea/
+
+# 数据库和向量库（运行时生成）
+data/
+chroma_db/
+
+# 上传的文档（运行时数据）
+documents/*
+!documents/.gitkeep

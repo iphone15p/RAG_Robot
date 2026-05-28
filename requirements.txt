@@ -2,6 +2,11 @@ streamlit
 langchain
 langchain-core
 langchain-community
+langchain-openai
+langchain-text-splitters
 chromadb
 dashscope
-langchain-openai
+python-dotenv
+fastapi
+uvicorn
+pydantic

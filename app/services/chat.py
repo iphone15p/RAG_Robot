@@ -9,8 +9,6 @@ from app.services.db import (
     init_db, create_session, delete_session, get_all_sessions,
     get_session_messages, add_message, update_session_title, get_message_count, add_message_with_sources,
 )
-# ... existing code ...
-
 
 # 初始化数据库
 init_db()

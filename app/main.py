@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from app.services.rag import build_vectorstore
+from app.services.rag import build_vectorstore, add_document
 from app.services.chat import get_answer, create_session, delete_session, get_all_sessions, get_session_messages
 import shutil, urllib.parse
 
@@ -47,5 +47,5 @@ async def upload(file: UploadFile = File(...)):
     save_path = f"documents/{file.filename}"
     with open(save_path, "wb") as f:
         shutil.copyfileobj(file.file, f)
-    build_vectorstore()
+    add_document(save_path)
     return {"message": f"{file.filename} 上传成功"}
