@@ -45,8 +45,7 @@ with st.sidebar:
                 if st.button("❌", key=f"del_{s['id']}"):
                     delete_session(s["id"])
                     if s["id"] == st.session_state.current_session_id:
-                        remaining = get_all_sessions()
-                        st.session_state.current_session_id = remaining[0]["id"] if remaining else None
+                        st.session_state.current_session_id = None
                     st.rerun()
 
     st.divider()
@@ -67,10 +66,12 @@ st.caption("基于用户上传和原有知识智能问答")
 
 if st.session_state.current_session_id:
     messages = get_session_messages(st.session_state.current_session_id)
+    # ui.py 历史消息渲染改为：
     for msg in messages:
         with st.chat_message(msg["role"]):
             st.write(msg["content"])
-
+            if msg.get("sources"):  # 有来源才显示
+                st.caption("📄 来源：" + msg["sources"])
 
 if question := st.chat_input("请输入你的问题..."):
     if not st.session_state.current_session_id:

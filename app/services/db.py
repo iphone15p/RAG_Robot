@@ -24,6 +24,7 @@ def init_db():
             session_id TEXT NOT NULL,
             role TEXT NOT NULL,
             content TEXT NOT NULL,
+            sources TEXT DEFAULT '',
             FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
         );
     """)
@@ -63,11 +64,12 @@ def get_all_sessions():
 def get_session_messages(session_id: str):
     conn = get_db()
     rows = conn.execute(
-        "SELECT role, content FROM messages WHERE session_id = ? ORDER BY id",
+        "SELECT role, content, sources FROM messages WHERE session_id = ? ORDER BY id",
         (session_id,)
     ).fetchall()
     conn.close()
     return [dict(row) for row in rows]
+
 
 def add_message(session_id: str, role: str, content: str):
     conn = get_db()
@@ -89,3 +91,13 @@ def get_message_count(session_id: str) -> int:
     ).fetchone()["cnt"]
     conn.close()
     return count
+
+# 新增函数
+def add_message_with_sources(session_id: str, role: str, content: str, sources: str = ""):
+    conn = get_db()
+    conn.execute(
+        "INSERT INTO messages (session_id, role, content, sources) VALUES (?, ?, ?, ?)",
+        (session_id, role, content, sources)
+    )
+    conn.commit()
+    conn.close()
