@@ -6,3 +6,4 @@ langchain-openai
 dashscope
 chromadb==0.4.15
 pydantic==1.10.13
+docx2txt
