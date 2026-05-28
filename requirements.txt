@@ -1,1 +1,6 @@
-# 1
+streamlit
+langchain
+langchain-core
+langchain-community
+chromadb
+dashscope
