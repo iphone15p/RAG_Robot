@@ -2,6 +2,7 @@ streamlit
 langchain
 langchain-core
 langchain-community
-chromadb
-dashscope
 langchain-openai
+dashscope
+chromadb==0.4.15
+pydantic==1.10.13
